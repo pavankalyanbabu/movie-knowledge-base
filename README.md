@@ -13,6 +13,25 @@ Reel Atlas is a static Movie Knowledge Base generated with [Eleventy](https://ww
 
 Eleventy 3, Node.js 20, npm, GitHub Actions, GitHub Pages, and GitHub CLI.
 
+## Project files and implementation
+
+This project uses Markdown for movie content, Nunjucks for the shared page layout, and Eleventy to generate a static website.
+
+| File or folder | Purpose |
+| --- | --- |
+| `src/index.md` | Homepage content and featured movie entry |
+| `src/movies/*.md` | Movie index and individual movie knowledge-base entries |
+| `src/_includes/layout.njk` | Shared HTML layout, navigation, metadata, and footer |
+| `src/_data/site.json` | Site name and global site information |
+| `src/css/site.css` | Website styling and responsive layout |
+| `src/images/` | Image and visual assets copied to the generated site |
+| `.eleventy.js` | Eleventy input/output folders, templates, path prefix, and asset copying |
+| `script/test-site.js` | Checks generated pages, assets, navigation, and movie data |
+| `.github/workflows/frontend-ci-cd.yml` | Runs linting, tests, Eleventy build, and GitHub Pages deployment |
+| `evidence/` | Screenshots documenting the rendered home page and film index |
+
+The main commands are `npm run lint` for JavaScript checks, `npm test` for the build and site validation, and `npm run build` to generate the `_site/` folder.
+
 ## Project structure
 
 ```text
@@ -49,9 +68,9 @@ The `deploy` job requires `build`, targets the `github-pages` environment, and u
 
 The workflow requests only `contents: read`, `pages: write`, `id-token: write`, and `issues: write`. In repository settings, enable Pages with **Source: GitHub Actions**. The published URL will be:
 
-`https://<github-owner>.github.io/movie-knowledge-base/`
+GitHub repository: https://github.com/pavankalyanbabu/movie-knowledge-base
 
-Final GitHub Pages URL: `https://<github-owner>.github.io/movie-knowledge-base/`
+Published Knowledge Base website: https://pavankalyanbabu.github.io/movie-knowledge-base/
 
 `PATH_PREFIX` is derived from `github.event.repository.name`, so CSS, links, and pages resolve correctly beneath the repository path. Add optional repository variables under **Settings > Secrets and variables > Actions > Variables**:
 
