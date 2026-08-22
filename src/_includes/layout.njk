@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} | {{ site.name }}</title>
+  <meta name="description" content="{{ description or site.description }}">
+  <link rel="stylesheet" href="{{ '/css/site.css' | url }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="{{ '/' | url }}"><span class="brand-mark">RA</span><span>{{ site.name }}</span></a>
+    <nav aria-label="Main navigation">
+      <a href="{{ '/' | url }}">Discover</a>
+      <a href="{{ '/movies/' | url }}">Films</a>
+    </nav>
+  </header>
+  <main>{{ content | safe }}</main>
+  <footer><span>REEL ATLAS / MOVIE KNOWLEDGE BASE</span><span>Curated for curious viewers</span></footer>
+</body>
+</html>

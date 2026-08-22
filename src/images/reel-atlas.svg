@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" role="img" aria-labelledby="title">
+  <title id="title">Film reel</title>
+  <circle cx="120" cy="120" r="102" fill="#d9f35b" stroke="#18201d" stroke-width="20"/>
+  <circle cx="120" cy="120" r="28" fill="#f06449" stroke="#18201d" stroke-width="12"/>
+  <g fill="#18201d">
+    <circle cx="120" cy="55" r="21"/><circle cx="176" cy="88" r="21"/>
+    <circle cx="176" cy="152" r="21"/><circle cx="120" cy="185" r="21"/>
+    <circle cx="64" cy="152" r="21"/><circle cx="64" cy="88" r="21"/>
+  </g>
+</svg>

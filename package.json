@@ -1,0 +1,16 @@
+{
+  "name": "movie-knowledge-base",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A static movie knowledge base built with Eleventy.",
+  "scripts": {
+    "build": "eleventy",
+    "lint": "eslint . --ignore-pattern _site",
+    "test": "npm run build && npm run test:site",
+    "test:site": "node script/test-site.js"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "eslint": "^9.0.0"
+  }
+}
