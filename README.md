@@ -56,7 +56,7 @@ The site is generated in `_site/`. Open `_site/index.html` in a browser for a lo
 
 ## GitHub Actions
 
-`frontend-ci-cd.yml` runs on pushes and pull requests targeting `main` when source, package, configuration, script, or workflow files change. It also supports `workflow_dispatch`. Concurrency uses the workflow name and Git reference, and cancels older runs when a newer run starts.
+`frontend-ci-cd.yml` runs on every push to `main`, on pull requests targeting `main` when source, package, configuration, script, or workflow files change, and through `workflow_dispatch`. Concurrency uses the workflow name and Git reference, and cancels older runs when a newer run starts.
 
 The `test` job runs on `ubuntu-latest`, checks out the repository, installs Node 20, restores the `node_modules` cache, runs linting, runs `npm test`, and invokes `npm run test:site`. Repository variables `SITE_NAME` and `PROJECT_REPOSITORY` are exposed at job level and consumed by the configuration display step. Defaults make the workflow usable before variables are created.
 
