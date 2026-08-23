@@ -3,102 +3,120 @@ name: Frontend Continuous Integration and Deployment
 on:
   push:
     branches: [main]
+
   pull_request:
     branches: [main]
-    paths: ['src/**', 'script/**', '.eleventy.js', 'package.json', 'package-lock.json', '.github/workflows/frontend-ci-cd.yml']
+    paths:
+      - 'src/**'
+      - 'script/**'
+      - '.eleventy.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/frontend-ci-cd.yml'
+
   workflow_dispatch:
 
 permissions:
   contents: read
   pages: write
   id-token: write
-  issues: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
+
     env:
       SITE_NAME: ${{ vars.SITE_NAME || 'Reel Atlas' }}
       PROJECT_REPOSITORY: ${{ vars.PROJECT_REPOSITORY || github.repository }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm ci
+
       - name: Show repository configuration
         run: echo "Testing ${SITE_NAME} from ${PROJECT_REPOSITORY}"
+
       - name: Lint JavaScript
         run: npm run lint
+
       - name: Run automated tests
         run: npm test
+
       - name: Validate generated website
         run: npm run test:site
+
 
   build:
     needs: test
     runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm ci
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
+
       - name: Build Eleventy site
         env:
           PATH_PREFIX: /${{ github.event.repository.name }}/
         run: npm run build
+
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site/
 
+
   deploy:
     needs: build
+
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+
     runs-on: ubuntu-latest
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Create deployment summary issue
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
-        run: |
-          gh issue create --repo "${{ github.repository }}" --title "Movie Knowledge Base deployment ${{ github.sha }}" --body "Deployment status: successful. Commit: ${{ github.sha }}. Branch: ${{ github.ref_name }}. GitHub Pages URL: $PAGE_URL"
-
-          - Deployment status: successful
-          - Commit: ${{ github.sha }}
-          - Branch: ${{ github.ref_name }}
-          - GitHub Pages URL: ${PAGE_URL}
-          - Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-          - Changes deployed: Eleventy-generated movie index, movie entries, and CSS assets
-          - Build/test status: passed"
