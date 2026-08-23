@@ -93,7 +93,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
-          gh issue create \
+          gh issue create --repo "$
+          {{ github.repository }}" \
             --title "Movie Knowledge Base deployment ${{ github.sha }}" \
             --body "## Movie Knowledge Base CI/CD
 
