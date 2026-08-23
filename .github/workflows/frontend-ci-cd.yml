@@ -93,10 +93,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
-          gh issue create --repo "$
-          {{ github.repository }}" \
-            --title "Movie Knowledge Base deployment ${{ github.sha }}" \
-            --body "## Movie Knowledge Base CI/CD
+          gh issue create --repo "${{ github.repository }}" --title "Movie Knowledge Base deployment ${{ github.sha }}" --body "Deployment status: successful. Commit: ${{ github.sha }}. Branch: ${{ github.ref_name }}. GitHub Pages URL: $PAGE_URL"
 
           - Deployment status: successful
           - Commit: ${{ github.sha }}
